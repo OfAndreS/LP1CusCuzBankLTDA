@@ -1,24 +1,30 @@
 cmake_minimum_required(VERSION 3.13)
 
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
-
-# add_subdirectory("thirdParty/profilerLib")
-# add_subdirectory("thirdParty/safeSave")
-
-
-project(main1)
+project(cMakeTest)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# we define MY_SOURCES to be a list of all the source files for my project
-file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+# Adiciona diretórios de include (para encontrar arquivos .h)
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 
-add_executable(main1 "${MY_SOURCES}")
+# Gera lista de arquivos .cpp automaticamente
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
+# Cria o executável com os arquivos encontrados
+add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/") # This is useful to get an ASSETS_PATH in your IDE during development but you should comment this if you compile a release version and uncomment the next line
-#target_compile_definitions("${CMAKE_PROJECT_NAME}" PUBLIC RESOURCES_PATH="./resources/") # Uncomment this line to setup the ASSETS_PATH macro to the final assets directory when you share the project
+# Define macro com o caminho para recursos (ajuda no desenvolvimento)
+target_compile_definitions(${PROJECT_NAME} PUBLIC 
+    RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/"
+)
 
+# Exemplo: adicionar bibliotecas de terceiros no futuro
+# add_subdirectory(thirdParty/minhaLib)
+# target_link_libraries(${PROJECT_NAME} PRIVATE minhaLib)
 
-target_include_directories(main1 PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
-target_link_libraries(main1 PRIVATE profilerLib safeSave)
+# Opcional: para runtime estático no MSVC (Windows)
+if(MSVC)
+    set_property(TARGET ${PROJECT_NAME} PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>$<$<CONFIG:Release>:Release>"
+    )
+endif()
