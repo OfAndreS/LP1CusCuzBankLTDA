@@ -8,7 +8,7 @@ Este repositório apresenta um **template completo** de projeto C++ utilizando *
 ## 📁 Estrutura de Pastas
 
 ```bash
-/cMakeTest 
+/nomeDoSeuProjeto 
 ├── CMakeLists.txt        # Arquivo principal de build
 ├── include/              # Arquivos de cabeçalho (.h)
 │   └── meu_arquivo.h
@@ -25,7 +25,7 @@ Este repositório apresenta um **template completo** de projeto C++ utilizando *
 ```cmake
 cmake_minimum_required(VERSION 3.13)
 
-project(cMakeTest)
+project(nomeDoSeuProjeto)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -57,7 +57,7 @@ endif()
 
 1. **Abra o terminal no diretório do projeto:**
    ```bash
-   cd /caminho/para/cMakeTest
+   cd /caminho/para/nomeDoSeuProjeto
    ```
 
 2. **Crie a pasta de build e acesse-a:**
@@ -83,7 +83,7 @@ endif()
 
 5. **Execute o binário gerado:**
    ```bash
-   ./cMakeTest
+   ./nomeDoSeuProjeto
    ```
 
 ### 💡 Dica Extra
