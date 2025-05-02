@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "utility.h"
+
 namespace ccBank 
 {
 
@@ -10,17 +12,23 @@ namespace ccBank
     {
         private:
             //Variáveis:
-            std::string cpf; 
-            std::string name;
+            const std::string CPF; 
+            const std::string NAME;
 
         public:
             //Construtor:
-            Client(std::string name, std::string cpf);
+            Client(std::string NAME, std::string CPF);
 
             //Métodos:
             std::string getName();
             std::string getCpf();
             std::string getNameAndCpf();
+    };
+
+    class ClientVerifyCpf
+    {
+        public:
+            static bool verifyCPF(const std::string& CPF);
     };
 
 }

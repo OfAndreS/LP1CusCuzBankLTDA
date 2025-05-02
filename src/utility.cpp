@@ -1,40 +1,27 @@
 #include "utility.h"
 
-void ccBank::startMenu()
-    { 
-        char choice = 'A';
-
-		//printLogo();
-        while (choice != '0')
-        {
-            std::cout << "| Central de Opções\n| ( 1 ) Fluxo Normal\n| ( 2 ) Fluxo Predefinido\n| ( 0 ) Encerrar\n| Escolha: ";
-            std::cin >> choice;
-
-            switch (choice)
-            {
-            case '1':
-                /* code */
-                break;
-            case '2':
-				optionTwo();
-                break;
-            case '0':
-
-                break;
-            default:
-                std::cout << "| Escolha uma opção válida" << std::endl;
-                break;
-            }
-        }
-        
-
-    }
+	void ccBank::printHead()
+	{
+		std::cout << "\n| *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *\n" << std::endl;
+	}
 
 	void ccBank::optionTwo()
 	{
-		Client cOne("Andre", "111.222.333-4");
-
+		Client cOne("Andre", "111.222.333-44");
+		printHead();
 		std::cout << cOne.getNameAndCpf() << std::endl;
+	}
+
+	bool ccBank::verifyLetter(const std::string& word)
+	{
+		for (char letter : word)
+		{
+			if (isalpha(letter))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	void ccBank::printLogo()

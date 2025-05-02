@@ -7,9 +7,11 @@
 
 namespace ccBank
 {
-    void startMenu();
+    void optionTwo();
 
     void printLogo();
 
-    void optionTwo();
+    void printHead();
+
+    bool verifyLetter(const std::string& word);
 }
