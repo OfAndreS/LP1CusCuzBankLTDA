@@ -17,7 +17,7 @@ void ccBank::startMenu()
                 /* code */
                 break;
             case '2':
-				ccBank::optionTwo();
+				ccBank::SecondFlow();
                 break;
             case '0':
 

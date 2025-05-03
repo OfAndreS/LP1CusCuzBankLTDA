@@ -5,11 +5,12 @@
 		std::cout << "\n| *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *\n" << std::endl;
 	}
 
-	void ccBank::optionTwo()
+	void ccBank::SecondFlow()
 	{
-		Client cOne("Andre", "111.222.333-44");
-		printHead();
-		std::cout << cOne.getNameAndCpf() << std::endl;
+		ccBank::Client client("Pedro Silvera", "123.456.789-09");
+		ccBank::Account account("ACC123", client, 1000.0);
+
+		std::cout << account.getInfo() << std::endl;
 	}
 
 	bool ccBank::verifyLetter(const std::string& word)

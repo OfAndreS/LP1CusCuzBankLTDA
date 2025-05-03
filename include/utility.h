@@ -3,11 +3,12 @@
 #include <iostream>
 #include <string>
 
+#include "account.h"
 #include "client.h"
 
 namespace ccBank
 {
-    void optionTwo();
+    void SecondFlow();
 
     void printLogo();
 
