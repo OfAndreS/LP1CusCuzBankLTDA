@@ -9,7 +9,6 @@
 	{
 		ccBank::Client client("Pedro Silvera", "123.456.789-09");
 		ccBank::Account account("ACC123", client, 1000.0);
-
 		std::cout << account.getInfo() << std::endl;
 	}
 

@@ -8,6 +8,12 @@ ccBank::Client::Client(std::string name, std::string cpf) : NAME(name), CPF(cpf)
         std::cout << "|\n| ERRO NO CPF \n|" << std::endl;
         exit(1);
     }
+    else if (!ccBank::writeClientData(CPF, NAME))
+    {
+        std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;
+        exit(1);
+    }
+
 }
 
 //Métodos Getters:

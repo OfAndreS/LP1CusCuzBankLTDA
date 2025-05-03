@@ -3,7 +3,9 @@
 #include <iostream>
 #include <string>
 
+#include "ioStreamData.h"
 #include "utility.h"
+
 
 namespace ccBank 
 {

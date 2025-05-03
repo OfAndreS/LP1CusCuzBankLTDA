@@ -15,14 +15,16 @@ namespace ccBank
         //Variáveis:
         const std::string accountID; 
         ccBank::Client& accountHolder;
-        double AccountBalance;
+        double accountBalance;
 
         public:
             //Construtor:
             Account(std::string accountID, ccBank::Client& accountHolder);
-            Account(std::string accountID, ccBank::Client& accountHolder, double AccountBalance);
+            Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance);
 
             //Métodos:
             std::string getInfo();
+
+            std::string getSaldo();
     };
 }
