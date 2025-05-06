@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 
 #include "utility.h"
 #include "client.h"
@@ -12,10 +13,10 @@ namespace ccBank
     class Account
     {
         private:
-        //Variáveis:
-        const std::string accountID; 
-        ccBank::Client& accountHolder;
-        double accountBalance;
+            //Variáveis:
+            const std::string accountID; 
+            ccBank::Client& accountHolder;
+            double accountBalance;
 
         public:
             //Construtor:
@@ -23,8 +24,10 @@ namespace ccBank
             Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance);
 
             //Métodos:
-            std::string getInfo();
+            void depositar(double money);
+            void sacar(double money);
 
+            std::string getInfo();
             std::string getSaldo();
     };
 }

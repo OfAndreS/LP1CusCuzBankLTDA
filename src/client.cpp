@@ -1,19 +1,21 @@
 #include "client.h"
 
 //Construtor:
-ccBank::Client::Client(std::string name, std::string cpf) : NAME(name), CPF(cpf) 
+ccBank::Client::Client(std::string name, std::string cpf, const int typeFlow) : NAME(name), CPF(cpf), TYPEFLOW(typeFlow)
 {
     if(!ClientVerifyCpf::verifyCPF(CPF))
     {
         std::cout << "|\n| ERRO NO CPF \n|" << std::endl;
         exit(1);
     }
-    else if (!ccBank::writeClientData(CPF, NAME))
+    else if (TYPEFLOW == 1)
     {
-        std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;
-        exit(1);
+        if (!ccBank::writeClientData(CPF, NAME))
+        {
+            std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;
+            exit(1);
+        }
     }
-
 }
 
 //Métodos Getters:
@@ -31,6 +33,11 @@ std::string ccBank::Client::getNameAndCpf()
 {
     std::string mergeString = "Nome: " + NAME + " CPF: " + CPF;
     return mergeString;
+}
+
+const int ccBank::Client::getTypeFlow()
+{
+    return this->TYPEFLOW;
 }
 
 // // // // Class ClientVerifyCPF

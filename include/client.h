@@ -14,17 +14,20 @@ namespace ccBank
     {
         private:
             //Variáveis:
+            const int TYPEFLOW;
             const std::string CPF; 
             const std::string NAME;
 
         public:
             //Construtor:
-            Client(std::string NAME, std::string CPF);
+            Client(std::string NAME, std::string CPF, const int TYPEFLOW);
 
             //Métodos:
             std::string getName();
             std::string getCpf();
             std::string getNameAndCpf();
+
+            const int getTypeFlow();
     };
 
     class ClientVerifyCpf
