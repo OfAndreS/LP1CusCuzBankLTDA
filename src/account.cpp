@@ -40,6 +40,55 @@ void ccBank::Account::sacar(double money)
     }
 }
 
+void ccBank::Account::transferir(double money, ccBank::Account &destiny)
+{
+    if (this->accountBalance < money)
+    {
+        std::cout << "| ERRO: Saldo insuficiente" << std::endl;
+    }
+    else if (getID() == destiny.getID())
+    {
+        std::cout << "| ERRO: Não se pode tranferir para a propria conta" << std::endl;
+    }
+    else
+    {
+        destiny.depositar(money);
+        this->accountBalance -= money;
+
+        printHead();
+        
+        std::cout << "| Transferido: " << std::to_string(money) << " da conta " << getID() << " para a conta " << destiny.getID() << std::endl; 
+    }
+}
+
+void ccBank::Account::transferir(double money, ccBank::Account &destiny01, ccBank::Account &destiny02)
+{
+    if (this->accountBalance < money)
+    {
+        std::cout << "| ERRO: Saldo insuficiente" << std::endl;
+    }
+    else if (getID() == destiny01.getID() && getID() == destiny02.getID() && destiny01.getID() == destiny02.getID())
+    {
+        std::cout << "| ERRO: Não se pode tranferir para a propria conta" << std::endl;
+    }
+    else
+    {
+        double splitMoney = money / 2;
+        this->accountBalance -= money;
+        destiny01.depositar(splitMoney);
+        destiny02.depositar(splitMoney);
+
+        printHead();
+
+        std::cout << "| Transferido: " << std::fixed << std::setprecision(2) << splitMoney << " da conta " << getID() << " para cada conta (" << destiny01.getID() << ", " << destiny02.getID() << ") " << std::endl;
+    }
+}
+
+std::string ccBank::Account::getID()
+{
+    return this->accountID;
+}
+
 std::string ccBank::Account::getSaldo()
 {
     return std::to_string(accountBalance);

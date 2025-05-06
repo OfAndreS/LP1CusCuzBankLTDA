@@ -4,7 +4,7 @@ void ccBank::startMenu()
     { 
         char choice = 'A';
 
-		//printLogo();
+		printLogo();
 
         while (choice != '0')
         {

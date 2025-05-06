@@ -18,9 +18,11 @@
 		ccBank::Account conta03_client03("1003", client03);
 
 		conta01_client01.depositar(1000);
-		conta01_client01.sacar(500);
+		conta01_client01.transferir(500, conta02_client02, conta03_client03);
 
 		std::cout << conta01_client01.getInfo() << std::endl;
+		std::cout << conta02_client02.getInfo() << std::endl;
+		std::cout << conta03_client03.getInfo() << std::endl;
 	}
 
 	bool ccBank::verifyLetter(const std::string& word)

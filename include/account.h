@@ -27,6 +27,10 @@ namespace ccBank
             void depositar(double money);
             void sacar(double money);
 
+            void transferir(double money, ccBank::Account &destiny);
+            void transferir(double money, ccBank::Account &destiny01, ccBank::Account &destiny02);
+
+            std::string getID();
             std::string getInfo();
             std::string getSaldo();
     };
