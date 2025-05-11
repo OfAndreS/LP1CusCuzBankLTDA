@@ -18,4 +18,6 @@ namespace ccBank
     bool readClientData();
 
     void deleteData(std::string number, const std::string PATH);
+
+    std::vector<std::string> storeDataInVector(const std::string& PATH, const int typeSearch);
 }
