@@ -24,7 +24,8 @@ void ccBank::startMenu()
 
                 break;
             default:
-                std::cout << "| Escolha uma opção válida" << std::endl;
+                printHead();
+                std::cout << "| Escolha uma alternativa valida" << std::endl;
                 break;
             }
         }
@@ -38,7 +39,7 @@ void ccBank::firstFlowMenu()
         while (choice != '0')
         {
             printHead();
-            std::cout << "| CENTRAL DE ALTERNATIVAS\n|\n| ( 1 ) Criar novo Cliente\n| ( 2 ) Excluir Cliente\n| ( 0 ) Voltar\n| Escolha: ";
+            std::cout << "| CENTRAL DE ALTERNATIVAS\n|\n| ( 1 ) Criar Cliente\n| ( 2 ) Exibir Cliente\n| ( 3 ) Excluir Cliente\n| ( 0 ) Voltar\n| Escolha: ";
             std::cin >> choice;
 
             switch (choice)
@@ -47,13 +48,16 @@ void ccBank::firstFlowMenu()
                 ccBank::FirstFlowCreatClient();
                 break;
             case '2':
-				/* code */
+				ccBank::readClientData();
+                break;
+            case '3':
+                ccBank::FirstFlowDeleteClient();
                 break;
             case '0':
-
                 break;
             default:
-                std::cout << "| Escolha uma opção válida" << std::endl;
+                printHead();
+                std::cout << "| Escolha uma alternativa valida" << std::endl;
                 break;
             }
         }

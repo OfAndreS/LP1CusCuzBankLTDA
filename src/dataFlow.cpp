@@ -17,6 +17,18 @@
         ccBank::Client client(name, cpf, 1);
     }
 
+    void ccBank::FirstFlowDeleteClient()
+    {
+        std::string inputNumber;
+
+        ccBank::readClientData();
+
+        std::cout << "\n|\n| Digite o numero para excluir a conta: ";
+        std::cin >> inputNumber;
+
+        ccBank::deleteData(inputNumber, "clientDataBase.txt");
+    }
+
     void ccBank::SecondFlow()
 	{
 		// Criação dos clientes
