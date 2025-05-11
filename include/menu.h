@@ -4,10 +4,11 @@
 #include <string>
 
 #include "client.h"
-#include "utility.h"
+#include "dataFlow.h"
 
 namespace ccBank
 {
     void startMenu();
 
+    void firstFlowMenu();
 }

@@ -1,16 +1,17 @@
 #pragma once
 
 #include <iostream>
+#include <limits>
 #include <string>
 
 #include "account.h"
 #include "client.h"
+#include "menu.h"
 
 namespace ccBank
 {
-    void printLogo();
+    void FirstFlowCreatClient();
 
-    void printHead();
+    void SecondFlow();
 
-    bool verifyLetter(const std::string& word);
 }
