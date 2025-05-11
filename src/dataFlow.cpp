@@ -21,12 +21,34 @@
     {
         std::string inputNumber;
 
-        ccBank::readClientData();
+        ccBank::readData("clientDataBase.txt");
 
         std::cout << "\n|\n| Digite o numero para excluir a conta: ";
         std::cin >> inputNumber;
 
         ccBank::deleteData(inputNumber, "clientDataBase.txt");
+    }
+
+    void ccBank::FirstFlowAccessClient()
+    {
+        std::string inputNumber;
+
+        std::cout << "\n|\n| Digite o seu CPF para acessar as contas: ";
+        std::cin >> inputNumber;
+
+        std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
+        if (ccBank::searchCpf(existingCpfs, inputNumber))
+        {
+            printHead();
+            std::cout << "| Cliente acessado com sucesso!" << std::endl;
+            ccBank::clientMenu();
+        }
+        else
+        {
+            printHead();
+            std::cout << "| ERRO: Cliente inexistente!" << std::endl;
+        }
+
     }
 
     void ccBank::SecondFlow()

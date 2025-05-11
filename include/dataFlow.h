@@ -14,6 +14,8 @@ namespace ccBank
 
     void FirstFlowDeleteClient();
 
+    void FirstFlowAccessClient();
+
     void SecondFlow();
 
 }

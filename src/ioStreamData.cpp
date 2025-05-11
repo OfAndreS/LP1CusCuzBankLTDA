@@ -34,9 +34,39 @@ std::vector<std::string> ccBank::storeDataInVector(const std::string& PATH, cons
         std::cerr << "| Tipo de busca inválido!\n";
         break;
     }
-
+    
     arquivoEntrada.close();
     return lines;
+}
+
+bool ccBank::searchCpf(const std::vector<std::string>& existingCpfs,const std::string& cpf)
+{
+    for (const auto& existingCpf : existingCpfs) {
+        if (existingCpf == cpf) {
+            return true;
+        }
+    }
+}
+
+bool ccBank::readData(const std::string PATH)
+{
+    std::ifstream arquivoEntrada(std::string(RESOURCES_PATH) + PATH);
+    if (arquivoEntrada.is_open()) {
+        int numberOfTheLine = 1;
+        std::string linha;
+
+        printHead();
+        std::cout << "| CLIENTES:\n| " << std::endl;
+
+        while (std::getline(arquivoEntrada, linha)) { 
+            
+            std::cout << "| " << "( " << numberOfTheLine << " ) | " << linha << '\n';
+            numberOfTheLine++;
+        }
+        arquivoEntrada.close();
+    } else {
+        std::cerr << "Erro ao abrir o arquivo para leitura!\n";
+    }
 }
 
 bool ccBank::writeClientData(const std::string& cpf, const std::string& name) 
@@ -44,12 +74,11 @@ bool ccBank::writeClientData(const std::string& cpf, const std::string& name)
     // Primeiro verifica se o CPF já existe
     std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
     
-    for (const auto& existingCpf : existingCpfs) {
-        if (existingCpf == cpf) {
-            printHead();
-            std::cout << "| ERRO: CPF " << cpf << " já cadastrado no sistema!\n";
-            return false;
-        }
+    if (ccBank::searchCpf(existingCpfs, cpf)) 
+    {
+        printHead();
+        std::cout << "| ERRO: CPF " << cpf << " já cadastrado no sistema!\n";
+        return false;
     }
 
     // Se o CPF não existe, procede com o cadastro
@@ -74,7 +103,7 @@ bool ccBank::writeAccountData(const std::string& id, ccBank::Client& client, con
     std::ofstream arquivoSaida(RESOURCES_PATH "accountDataBase.txt", std::ios::app);
 
     if (arquivoSaida.is_open()) {
-        arquivoSaida << id << " | " << client.getName() << " | " << balance << std::endl; // Escreve no final do arquivo
+        arquivoSaida << id << " | " << client.getCpf() << " / " << balance << std::endl; // Escreve no final do arquivo
         arquivoSaida.close();
         return true;
     } else {
@@ -83,26 +112,6 @@ bool ccBank::writeAccountData(const std::string& id, ccBank::Client& client, con
     }
 }
 
-bool ccBank::readClientData()
-{
-    std::ifstream arquivoEntrada(RESOURCES_PATH "clientDataBase.txt");
-    if (arquivoEntrada.is_open()) {
-        int numberOfTheLine = 1;
-        std::string linha;
-
-        printHead();
-        std::cout << "| CLIENTES:\n| " << std::endl;
-
-        while (std::getline(arquivoEntrada, linha)) { 
-            
-            std::cout << "| " << "( " << numberOfTheLine << " ) | " << linha << '\n';
-            numberOfTheLine++;
-        }
-        arquivoEntrada.close();
-    } else {
-        std::cerr << "Erro ao abrir o arquivo para leitura!\n";
-    }
-}
 
 void ccBank::deleteData(std::string number, const std::string PATH)
 {
@@ -146,7 +155,7 @@ void ccBank::deleteData(std::string number, const std::string PATH)
     }
 
     printHead();
-    std::cout << "| Cliente " << name << " deletado com sucesso!\n";
+    std::cout << "| Cliente deletado com sucesso!\n";
 
     arquivoSaida.close();
 

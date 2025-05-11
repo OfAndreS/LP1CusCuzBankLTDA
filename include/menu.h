@@ -11,4 +11,6 @@ namespace ccBank
     void startMenu();
 
     void firstFlowMenu();
+
+    void clientMenu();
 }
