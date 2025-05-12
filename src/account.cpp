@@ -3,7 +3,7 @@
 ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder) 
     : accountID(accountID), accountHolder(accountHolder), accountBalance(0.0)
     {
-        if (accountHolder.getTypeFlow() == 1){
+        if (accountHolder.getTypeFlow() == 2){
             if (!ccBank::writeAccountData(accountID, accountHolder, getSaldo()))
             {
                 std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;
@@ -15,7 +15,7 @@ ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder)
 ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance) 
     : accountID(accountID), accountHolder(accountHolder), accountBalance(accountBalance)
     {
-        if (accountHolder.getTypeFlow() == 1){
+        if (accountHolder.getTypeFlow() == 2){
             if (!ccBank::writeAccountData(accountID, accountHolder, getSaldo()))
             {
                 std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;

@@ -10,11 +10,19 @@
 
 namespace ccBank
 {
+    class Client;
+
+    class Account;
+
     void FirstFlowCreatClient();
 
     void FirstFlowDeleteClient();
 
+    void ClientFlowDeleteClient();
+
     void FirstFlowAccessClient();
+
+    void ClientFlowCreatAccount(ccBank::Client& myClient);
 
     void SecondFlow();
 

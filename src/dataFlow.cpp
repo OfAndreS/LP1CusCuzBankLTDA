@@ -1,6 +1,28 @@
 	#include "dataFlow.h"
     
+    void ccBank::FirstFlowAccessClient()
+    {
+        std::string inputCpf;
 
+        std::cout << "\n|\n| Digite o seu CPF para acessar as contas: ";
+        std::cin >> inputCpf;
+
+        std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
+        if (ccBank::searchCpf(existingCpfs, inputCpf))
+        {
+            printHead();
+            std::vector<std::string> namesInData = ccBank::storeDataInVector("clientDataBase.txt", 3);
+            ccBank::Client myClient(namesInData.at(ccBank::searchCpfReturnInt(existingCpfs, inputCpf)), inputCpf, 2);
+            std::cout << "| Cliente acessado com sucesso!" << std::endl;
+            ccBank::clientMenu(myClient);
+        }
+        else
+        {
+            printHead();
+            std::cout << "| ERRO: Cliente inexistente!" << std::endl;
+        }
+    }
+    
     void ccBank::FirstFlowCreatClient()
     {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignora o '\n' restante no buffer
@@ -29,26 +51,24 @@
         ccBank::deleteData(inputNumber, "clientDataBase.txt");
     }
 
-    void ccBank::FirstFlowAccessClient()
+    void ccBank::ClientFlowDeleteClient()
     {
         std::string inputNumber;
 
-        std::cout << "\n|\n| Digite o seu CPF para acessar as contas: ";
+        ccBank::readCpfData("accountDataBase.txt");
+
+        std::cout << "\n|\n| Digite o numero para excluir a conta: ";
         std::cin >> inputNumber;
 
-        std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
-        if (ccBank::searchCpf(existingCpfs, inputNumber))
-        {
-            printHead();
-            std::cout << "| Cliente acessado com sucesso!" << std::endl;
-            ccBank::clientMenu();
-        }
-        else
-        {
-            printHead();
-            std::cout << "| ERRO: Cliente inexistente!" << std::endl;
-        }
+        ccBank::deleteData(inputNumber, "accountDataBase.txt");
+    }
 
+    void ccBank::ClientFlowCreatAccount(ccBank::Client& myClient)
+    {
+        ccBank::Account myAccount(std::to_string(ccBank::generateRandomNumber()), myClient);
+
+        ccBank::printHead();
+        std::cout << "| Conta com ID: " << myAccount.getID() << " criada com sucesso!" << std::endl;
     }
 
     void ccBank::SecondFlow()

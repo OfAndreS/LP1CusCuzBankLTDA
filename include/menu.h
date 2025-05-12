@@ -8,9 +8,11 @@
 
 namespace ccBank
 {
+    class Client;
+
     void startMenu();
 
     void firstFlowMenu();
 
-    void clientMenu();
+    void clientMenu(ccBank::Client& myClient);
 }

@@ -16,6 +16,11 @@ ccBank::Client::Client(std::string name, std::string cpf, const int typeFlow) : 
             exit(1);
         }
     }
+    else if (TYPEFLOW == 2)
+    {
+        printHead();
+        std::cout << "|\n| Conta: " << NAME << "acessada! \n|" << std::endl;
+    }
 }
 
 //Métodos Getters:

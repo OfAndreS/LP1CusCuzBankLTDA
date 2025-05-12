@@ -38,22 +38,22 @@ void ccBank::firstFlowMenu()
         while (choice != '0')
         {
             printHead();
-            std::cout << "| CENTRAL DE ALTERNATIVAS\n|\n| ( 1 ) Criar Cliente\n| ( 2 ) Exibir Cliente\n| ( 3 ) Excluir Cliente\n| ( 4 ) Acessar Cliente\n| ( 0 ) Voltar\n| Escolha: ";
+            std::cout << "| CENTRAL DE ALTERNATIVAS\n|\n| ( 1 ) Acessar Cliente\n| ( 2 ) Criar Cliente\n| ( 3 ) Exibir Cliente\n| ( 4 ) Excluir Cliente\n| ( 0 ) Voltar\n| Escolha: ";
             std::cin >> choice;
 
             switch (choice)
             {
             case '1':
-                ccBank::FirstFlowCreatClient();
+                ccBank::FirstFlowAccessClient();
                 break;
             case '2':
-				ccBank::readData("clientDataBase.txt");
+                ccBank::FirstFlowCreatClient();
                 break;
             case '3':
-                ccBank::FirstFlowDeleteClient();
+				ccBank::readData("clientDataBase.txt");
                 break;
             case '4':
-                ccBank::FirstFlowAccessClient();
+                ccBank::FirstFlowDeleteClient();
             case '0':
                 break;
             default:
@@ -65,7 +65,7 @@ void ccBank::firstFlowMenu()
         
     }
 
-void ccBank::clientMenu()
+void ccBank::clientMenu(ccBank::Client& myClient)
 {
      
     char choice = 'A';
@@ -73,7 +73,7 @@ void ccBank::clientMenu()
     while (choice != '0')
     {
         printHead();
-        std::cout << "| CENTRAL DO CLIENTE\n|\n| ( 1 ) Criar Conta\n| ( 2 ) Exibir Conta\n| ( 3 ) Excluir Conta\n| ( 0 ) Voltar\n| Escolha: ";
+        std::cout << "| CENTRAL DO CLIENTE\n|\n| ( 1 ) Acessar Conta\n| ( 2 ) Criar Conta\n| ( 3 ) Exibir Conta\n| ( 4 ) Excluir Conta\n| ( 0 ) Voltar\n| Escolha: ";
         std::cin >> choice;
 
         switch (choice)
@@ -82,10 +82,13 @@ void ccBank::clientMenu()
             /*Code*/
             break;
         case '2':
-			ccBank::readData("accountDataBase.txt");
+            ccBank::ClientFlowCreatAccount(myClient);
             break;
         case '3':
-            /*Code*/
+            ccBank::readCpfData("accountDataBase.txt", myClient.getCpf());
+            break;
+        case '4':
+            ccBank::ClientFlowDeleteClient();
             break;
         case '0':
             break;

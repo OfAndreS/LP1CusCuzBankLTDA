@@ -17,6 +17,12 @@
 		return true;
 	}
 
+	int ccBank::generateRandomNumber()
+	{
+		std::srand(std::time(nullptr)); // Seed baseada no tempo atual
+    	return 10000 + (std::rand() % 90000); // [10000, 99999]
+	}
+
 	void ccBank::printLogo()
 	{
 		std::cout << " ________  ___  ___  ________  ________  ___  ___  ________         \n";
