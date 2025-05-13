@@ -14,14 +14,15 @@ namespace ccBank
     {
         private:
             //Variáveis:
+            const int TYPEFLOW;
             const std::string accountID; 
             ccBank::Client& accountHolder;
             double accountBalance;
 
         public:
             //Construtor:
-            Account(std::string accountID, ccBank::Client& accountHolder);
-            Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance);
+            Account(std::string accountID, ccBank::Client& accountHolder, const int TYPEFLOW);
+            Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance, const int TYPEFLOW);
 
             //Métodos:
             void depositar(double money);

@@ -15,4 +15,6 @@ namespace ccBank
     void firstFlowMenu();
 
     void clientMenu(ccBank::Client& myClient);
+
+    void accountMenu(ccBank::Account& myAccount);
 }

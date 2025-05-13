@@ -2,15 +2,16 @@
     
     void ccBank::FirstFlowAccessClient()
     {
+        const std::string& PATH = "clientDataBase.txt";
         std::string inputCpf;
 
         std::cout << "\n|\n| Digite o seu CPF para acessar as contas: ";
         std::cin >> inputCpf;
 
-        std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
+        std::vector<std::string> existingCpfs = storeDataInVector(PATH, 2);
         if (ccBank::searchCpf(existingCpfs, inputCpf))
         {
-            std::vector<std::string> namesInData = ccBank::storeDataInVector("clientDataBase.txt", 3);
+            std::vector<std::string> namesInData = ccBank::storeDataInVector(PATH, 3);
             ccBank::Client myClient(namesInData.at(ccBank::searchCpfReturnInt(existingCpfs, inputCpf)), inputCpf, 2);
             ccBank::clientMenu(myClient);
         }
@@ -44,8 +45,10 @@
 
         ccBank::readData(PATH);
 
-        std::cout << "\n|\n| Digite o numero para excluir a conta: ";
+        std::cout << "\n|\n| ( 0 ) Voltar | Digite o numero para excluir a conta: ";
         std::cin >> inputNumber;
+
+        if (inputNumber == "0") return;
 
         ccBank::deleteData(std::stoi(inputNumber), PATH, ccBank::returnAllLinesInVector(PATH));
     }
@@ -53,22 +56,51 @@
     void ccBank::ClientFlowDeleteAccount(const std::string& cpf)
     {
         const std::string& PATH = "accountDataBase.txt";
-        std::string inputNumber;
+        std::string inputID;
 
         ccBank::readCpfData(PATH, cpf);
 
-        std::cout << "\n|\n| Digite o ID para excluir a conta: ";
-        std::cin >> inputNumber;
+        std::cout << "\n|\n| ( 0 ) Voltar | Digite o ID para excluir a conta: ";
+        std::cin >> inputID;
 
-        ccBank::deleteData(ccBank::searchIdReturnInt(PATH, std::stoi(inputNumber)), PATH, ccBank::returnAllLinesInVector(PATH));
+        if (inputID == "0") return;
+
+        ccBank::deleteData(ccBank::searchIdReturnInt(PATH, std::stoi(inputID)), PATH, ccBank::returnAllLinesInVector(PATH));
     }
 
     void ccBank::ClientFlowCreatAccount(ccBank::Client& myClient)
     {
-        ccBank::Account myAccount(std::to_string(ccBank::generateRandomNumber()), myClient);
+        ccBank::Account myAccount(std::to_string(ccBank::generateRandomNumber()), myClient, 1);
 
         ccBank::printHead();
         std::cout << "| Conta com ID: " << myAccount.getID() << " criada com sucesso!" << std::endl;
+    }
+
+    void ccBank::ClientFlowAccessAccount(ccBank::Client& myClient)
+    {
+        const std::string& PATH = "accountDataBase.txt";
+        int inputID;
+
+        ccBank::readCpfData(PATH, myClient.getCpf());
+
+        std::cout << "\n|\n| ( 0 ) Voltar | Digite o ID da conta: ";
+        std::cin >> inputID;
+
+        if (inputID == 0) return;
+
+        int idNumber = ccBank::searchIdReturnInt(PATH, inputID);
+
+        if (idNumber != -1)
+        {
+            std::vector<std::string> idInData = ccBank::storeDataInVector(PATH, 4);
+            ccBank::Account myAccount(idInData.at(idNumber), myClient, 2);
+            ccBank::accountMenu(myAccount);
+        }
+        else
+        {
+            printHead();
+            std::cout << "| ERRO: Cliente inexistente!" << std::endl;
+        }
     }
 
     void ccBank::SecondFlow()
@@ -79,9 +111,9 @@
 		ccBank::Client client03("Carla", "333.333.333-33", 2);
 
 		// Criação das contas bancárias com saldos iniciais
-		ccBank::Account conta01_client01("1001", client01, 1000.0);
-		ccBank::Account conta02_client02("1002", client02);
-		ccBank::Account conta03_client03("1003", client03);
+		ccBank::Account conta01_client01("1001", client01, 1000.0, 2);
+		ccBank::Account conta02_client02("1002", client02, 2);
+		ccBank::Account conta03_client03("1003", client03, 2);
 
 		conta01_client01.depositar(1000);
 		conta01_client01.transferir(500, conta02_client02, conta03_client03);

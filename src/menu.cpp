@@ -79,7 +79,7 @@ void ccBank::clientMenu(ccBank::Client& myClient)
         switch (choice)
         {
         case '1':
-            /*Code*/
+            ccBank::ClientFlowAccessAccount(myClient);
             break;
         case '2':
             ccBank::ClientFlowCreatAccount(myClient);
@@ -89,6 +89,41 @@ void ccBank::clientMenu(ccBank::Client& myClient)
             break;
         case '4':
             ccBank::ClientFlowDeleteAccount(myClient.getCpf());
+            break;
+        case '0':
+            break;
+        default:
+            printHead();
+            std::cout << "| Escolha uma alternativa valida" << std::endl;
+                break;
+        }
+    }
+}
+
+void ccBank::accountMenu(ccBank::Account& myAccount)
+{
+     
+    char choice = 'A';
+
+    while (choice != '0')
+    {
+        printHead();
+        std::cout << "| CENTRAL DA CONTA: " << myAccount.getID() << "\n|\n| ( 1 ) \n| ( 2 ) \n| ( 3 ) \n| ( 4 ) \n| ( 0 ) Voltar\n| Escolha: ";
+        std::cin >> choice;
+
+        switch (choice)
+        {
+        case '1':
+            /*Code*
+            break;
+        case '2':
+            /*Code*/
+            break;
+        case '3':
+            /*Code*/
+            break;
+        case '4':
+            /*Code*/
             break;
         case '0':
             break;

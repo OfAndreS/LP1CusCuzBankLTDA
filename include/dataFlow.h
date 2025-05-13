@@ -17,12 +17,14 @@ namespace ccBank
     void FirstFlowCreatClient();
 
     void FirstFlowDeleteClient();
+    
+    void FirstFlowAccessClient();
+    
+    void ClientFlowCreatAccount(ccBank::Client& myClient);
 
     void ClientFlowDeleteAccount(const std::string& cpf);
 
-    void FirstFlowAccessClient();
-
-    void ClientFlowCreatAccount(ccBank::Client& myClient);
+    void ClientFlowAccessAccount(ccBank::Client& myClient);
 
     void SecondFlow();
 

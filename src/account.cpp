@@ -1,26 +1,36 @@
 #include "account.h"
 
-ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder) 
-    : accountID(accountID), accountHolder(accountHolder), accountBalance(0.0)
+ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder, const int TYPEFLOW) 
+    : accountID(accountID), accountHolder(accountHolder), accountBalance(0.0), TYPEFLOW(TYPEFLOW)
     {
-        if (accountHolder.getTypeFlow() == 2){
+        if (TYPEFLOW == 1){
             if (!ccBank::writeAccountData(accountID, accountHolder, getSaldo()))
             {
                 std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;
                 exit(1);
             }
         }
+        else if (TYPEFLOW == 2)
+        {
+            printHead();
+            std::cout << "|\n| Conta: " << "ID: " << accountID << " Name: " << accountHolder.getName() << " acessada! \n|" << std::endl;
+        }
     }
 
-ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance) 
-    : accountID(accountID), accountHolder(accountHolder), accountBalance(accountBalance)
+ccBank::Account::Account(std::string accountID, ccBank::Client& accountHolder, double accountBalance, const int TYPEFLOW) 
+    : accountID(accountID), accountHolder(accountHolder), accountBalance(accountBalance), TYPEFLOW(TYPEFLOW)
     {
-        if (accountHolder.getTypeFlow() == 2){
+        if (TYPEFLOW == 1){
             if (!ccBank::writeAccountData(accountID, accountHolder, getSaldo()))
             {
                 std::cout << "|\n| ERRO AO SALVAR NO BANCO DE DADOS \n|" << std::endl;
                 exit(1);
             }
+        }
+        else if (TYPEFLOW == 2)
+        {
+            printHead();
+            std::cout << "|\n| Conta: " << "ID: " << accountID << " Name: " << accountHolder.getName() << " acessada! \n|" << std::endl;
         }
     }
 
