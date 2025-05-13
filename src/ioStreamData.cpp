@@ -50,6 +50,10 @@ std::vector<std::string> ccBank::storeDataInVector(const std::string& PATH, cons
     return lines;
 }
 
+
+// Métodos para BUSCA no arquivo
+
+
 bool ccBank::searchCpf(const std::vector<std::string>& existingCpfs,const std::string& cpf) /// Proucura o CPF no vetor
 {
     for (const auto& existingCpf : existingCpfs) {
@@ -69,7 +73,55 @@ int ccBank::searchCpfReturnInt(const std::vector<std::string>& existingCpfs, con
     return -1; // Retorna -1 se o CPF não foi encontrado
 }
 
-bool ccBank::readData(const std::string PATH)
+int ccBank::searchIdReturnInt(const std::string& PATH, int idProcurado) {
+    std::ifstream arquivoEntrada(std::string(RESOURCES_PATH) + PATH);
+    
+    if (!arquivoEntrada.is_open()) {
+        std::cerr << "Erro ao abrir o arquivo: " << PATH << "\n";
+        return -1; // Retorna -1 se não abrir o arquivo
+    }
+
+    std::string linha;
+    int numeroLinha = 0;
+    bool encontrado = false;
+
+    while (std::getline(arquivoEntrada, linha)) {
+        numeroLinha++; // Incrementa o contador de linhas (começa em 1)
+        
+        // Extrai o ID da linha (formato: "CPF | ID / SALDO")
+        size_t posPipe = linha.find(" | ");
+        size_t posBarra = linha.find(" / ");
+        
+        if (posPipe != std::string::npos && posBarra != std::string::npos) {
+            try {
+                int idAtual = std::stoi(linha.substr(posPipe + 3, posBarra - posPipe - 3));
+                
+                if (idAtual == idProcurado) {
+                    encontrado = true;
+                    break; // Encontrou, pode sair do loop
+                }
+            } catch (...) {
+                // Ignora linhas com formato inválido
+                continue;
+            }
+        }
+    }
+
+    arquivoEntrada.close();
+
+    if (!encontrado) {
+        std::cout << "| ID " << idProcurado << " inexistente!\n";
+        return -1;
+    }
+
+    return numeroLinha; // Retorna a posição da linha (1-based)
+}
+
+
+// Métodos para LEITURA no arquivo 
+
+
+void ccBank::readData(const std::string PATH)
 {
     std::ifstream arquivoEntrada(std::string(RESOURCES_PATH) + PATH);
     if (arquivoEntrada.is_open()) {
@@ -90,45 +142,53 @@ bool ccBank::readData(const std::string PATH)
     }
 }
 
-bool ccBank::readCpfData(const std::string PATH, const std::string& cpfProcurado) {
+std::vector<std::string> ccBank::readCpfData(const std::string PATH, const std::string& cpfProcurado) {
+    std::vector<std::string> cpfsEncontrados;
     std::ifstream arquivoEntrada(std::string(RESOURCES_PATH) + PATH);
+    
     if (!arquivoEntrada.is_open()) {
         std::cerr << "Erro ao abrir o arquivo para leitura!\n";
-        return false;
+        return cpfsEncontrados; // Retorna vetor vazio em caso de erro
     }
 
+    int numberOfTheLine = 1;
     bool encontrou = false;
     std::string linha;
 
     printHead();
-    std::cout << "| BUSCA POR CPF: " << cpfProcurado << "\n| " << std::endl;
+    std::cout << "| BUSCA POR TODAS AS CONTAS NO CPF: " << cpfProcurado << "\n| " << std::endl;
+    std::cout << "| (   ) | CPF            | ID    / SALDO "<< std::endl;
 
     while (std::getline(arquivoEntrada, linha)) {
-        // Extrai o CPF da linha (formato: "CPF | Nome")
         size_t pos = linha.find(" | ");
         if (pos != std::string::npos) {
             std::string cpfNaLinha = linha.substr(0, pos);
             
-            // Se o CPF for igual ao procurado, imprime a linha
             if (cpfNaLinha == cpfProcurado) {
-                std::cout << "| " << linha << '\n';
+                std::cout << "| " << "( " << numberOfTheLine << " ) | " << linha << '\n';
+                cpfsEncontrados.push_back(cpfNaLinha); // Adiciona CPF ao vetor
+                numberOfTheLine++;
                 encontrou = true;
             }
         }
     }
 
     if (!encontrou) {
-        std::cout << "| CPF não encontrado.\n";
+        std::cout << "| Nenhuma conta foi criada para esse CPF.\n";
+        return cpfsEncontrados = {};
     }
 
     arquivoEntrada.close();
-    return encontrou;
+    return cpfsEncontrados;
 }
+
+
+// Métodos para ESCREVER no arquivos 
+
 
 bool ccBank::writeClientData(const std::string& cpf, const std::string& name) 
 {
-    // Primeiro verifica se o CPF já existe
-    std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
+    std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2); // Primeiro verifica se o CPF já existe
     
     if (ccBank::searchCpf(existingCpfs, cpf)) 
     {
@@ -137,15 +197,13 @@ bool ccBank::writeClientData(const std::string& cpf, const std::string& name)
         return false;
     }
 
-    // Se o CPF não existe, procede com o cadastro
-    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + "clientDataBase.txt", std::ios::app);
+    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + "clientDataBase.txt", std::ios::app); // Se o CPF não existe, procede com o cadastro
     if (!arquivoSaida.is_open()) {
         std::cerr << "| Erro ao abrir arquivo para escrita!\n";
         return false;
     }
 
-    // Formata a saída consistentemente
-    arquivoSaida << cpf << " | " << name << "\n";
+    arquivoSaida << cpf << " | " << name << "\n"; // Formata a saída consistentemente
     arquivoSaida.close();
 
     printHead();
@@ -168,18 +226,27 @@ bool ccBank::writeAccountData(const std::string& id, ccBank::Client& client, con
     }
 }
 
-void ccBank::deleteData(std::string number, const std::string PATH)
-{
-    // Converte o número da linha para inteiro
-    int targetLine;
-    try {
-        targetLine = std::stoi(number);
-    } catch (...) {
-        std::cerr << "| Número de linha inválido!\n";
-        return;
-    }
 
+// Métodos para DELETAR no arquivos 
+
+
+std::vector<std::string> ccBank::returnAllLinesInVector(const std::string& PATH)
+{
     std::vector<std::string> lines = ccBank::storeDataInVector(PATH, 1);
+    return lines;
+}
+
+std::vector<std::string> ccBank::returnCpfLinesInVector(const std::string& PATH, const std::string& cpf)
+{
+    std::vector<std::string> lines = ccBank::readCpfData(PATH, cpf);
+    return lines;
+}
+
+void ccBank::deleteData(int number, const std::string PATH, std::vector<std::string> lines)
+{
+    int targetLine = number;
+
+    if (targetLine == -1) return;
 
     if (lines.empty())
     {
@@ -188,18 +255,15 @@ void ccBank::deleteData(std::string number, const std::string PATH)
         return;
     }
         
-
-    // Verifica se a linha existe
-    if (targetLine < 1 || targetLine > lines.size()) {
-        std::cerr << "| Linha " << targetLine << " não existe!\n";
+    if (targetLine < 1 || targetLine > lines.size()) // Verifica se a linha existe
+    {
+        std::cerr << "| Linha " << targetLine << " inexistente!\n";
         return;
     }
 
-    // Remove a linha do vetor
-    lines.erase(lines.begin() + targetLine - 1);
+    lines.erase(lines.begin() + targetLine - 1); // Remove a linha do vetor
 
-    // Reescreve o arquivo
-    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + PATH);
+    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + PATH); // Reescreve o arquivo
     if (!arquivoSaida.is_open()) {
         std::cerr << "| Erro ao abrir arquivo para escrita!\n";
         return;

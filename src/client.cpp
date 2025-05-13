@@ -19,7 +19,7 @@ ccBank::Client::Client(std::string name, std::string cpf, const int typeFlow) : 
     else if (TYPEFLOW == 2)
     {
         printHead();
-        std::cout << "|\n| Conta: " << NAME << "acessada! \n|" << std::endl;
+        std::cout << "|\n| Cliente: " << NAME << " acessado! \n|" << std::endl;
     }
 }
 

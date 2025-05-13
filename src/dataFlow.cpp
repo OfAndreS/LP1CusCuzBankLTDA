@@ -10,10 +10,8 @@
         std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
         if (ccBank::searchCpf(existingCpfs, inputCpf))
         {
-            printHead();
             std::vector<std::string> namesInData = ccBank::storeDataInVector("clientDataBase.txt", 3);
             ccBank::Client myClient(namesInData.at(ccBank::searchCpfReturnInt(existingCpfs, inputCpf)), inputCpf, 2);
-            std::cout << "| Cliente acessado com sucesso!" << std::endl;
             ccBank::clientMenu(myClient);
         }
         else
@@ -41,26 +39,28 @@
 
     void ccBank::FirstFlowDeleteClient()
     {
+        const std::string& PATH = "clientDataBase.txt";
         std::string inputNumber;
 
-        ccBank::readData("clientDataBase.txt");
+        ccBank::readData(PATH);
 
         std::cout << "\n|\n| Digite o numero para excluir a conta: ";
         std::cin >> inputNumber;
 
-        ccBank::deleteData(inputNumber, "clientDataBase.txt");
+        ccBank::deleteData(std::stoi(inputNumber), PATH, ccBank::returnAllLinesInVector(PATH));
     }
 
-    void ccBank::ClientFlowDeleteClient()
+    void ccBank::ClientFlowDeleteAccount(const std::string& cpf)
     {
+        const std::string& PATH = "accountDataBase.txt";
         std::string inputNumber;
 
-        ccBank::readCpfData("accountDataBase.txt");
+        ccBank::readCpfData(PATH, cpf);
 
-        std::cout << "\n|\n| Digite o numero para excluir a conta: ";
+        std::cout << "\n|\n| Digite o ID para excluir a conta: ";
         std::cin >> inputNumber;
 
-        ccBank::deleteData(inputNumber, "accountDataBase.txt");
+        ccBank::deleteData(ccBank::searchIdReturnInt(PATH, std::stoi(inputNumber)), PATH, ccBank::returnAllLinesInVector(PATH));
     }
 
     void ccBank::ClientFlowCreatAccount(ccBank::Client& myClient)

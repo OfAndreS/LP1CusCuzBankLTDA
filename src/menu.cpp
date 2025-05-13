@@ -73,7 +73,7 @@ void ccBank::clientMenu(ccBank::Client& myClient)
     while (choice != '0')
     {
         printHead();
-        std::cout << "| CENTRAL DO CLIENTE\n|\n| ( 1 ) Acessar Conta\n| ( 2 ) Criar Conta\n| ( 3 ) Exibir Conta\n| ( 4 ) Excluir Conta\n| ( 0 ) Voltar\n| Escolha: ";
+        std::cout << "| CENTRAL DO CLIENTE: " << myClient.getName() << "\n|\n| ( 1 ) Acessar Conta\n| ( 2 ) Criar Conta\n| ( 3 ) Exibir Conta\n| ( 4 ) Excluir Conta\n| ( 0 ) Voltar\n| Escolha: ";
         std::cin >> choice;
 
         switch (choice)
@@ -88,7 +88,7 @@ void ccBank::clientMenu(ccBank::Client& myClient)
             ccBank::readCpfData("accountDataBase.txt", myClient.getCpf());
             break;
         case '4':
-            ccBank::ClientFlowDeleteClient();
+            ccBank::ClientFlowDeleteAccount(myClient.getCpf());
             break;
         case '0':
             break;

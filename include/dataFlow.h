@@ -18,7 +18,7 @@ namespace ccBank
 
     void FirstFlowDeleteClient();
 
-    void ClientFlowDeleteClient();
+    void ClientFlowDeleteAccount(const std::string& cpf);
 
     void FirstFlowAccessClient();
 
