@@ -93,14 +93,121 @@ Ao compilar, os arquivos de recurso serão automaticamente criados em resources/
 
 ---
 
-## 🧪 Fluxo Predefinido
+## 🧪 Fluxos
 
-No menu inicial, você pode executar o fluxo 2 ("Fluxo Predefinido"), que:
+Normal:
+* O fluxo normal é a maneira interativa de se executar o programa
 
+Predefinido:
+* Executa uma ordem pré-estabelecida pelo professor
 * Cria três clientes fictícios
 * Gera contas para cada um
 * Efetua uma transferência do cliente Ana para Bruno e Carla
 * Exibe o saldo atualizado de cada conta
+
+---
+## 🔁 Navegação por Fluxos
+
+### 1. Menu Principal (startMenu)
+
+Ao iniciar o programa, o usuário vê o menu principal:
+
+```
+| MENU PRINCIPAL
+|
+| ( 1 ) Fluxo Normal
+| ( 2 ) Fluxo Predefinido
+| ( 0 ) Encerrar
+| Escolha:
+```
+
+Opções:
+
+* (1) Fluxo Normal: leva ao menu de gerenciamento de clientes (primeira camada funcional do sistema)
+* (2) Fluxo Predefinido: executa um exemplo automático (sem entrada manual)
+* (0) Encerra o programa
+
+### 2. Fluxo Normal → Menu de Clientes (firstFlowMenu)
+
+Após escolher “Fluxo Normal”, o usuário é levado ao menu de clientes:
+
+```
+| CENTRAL DE ALTERNATIVAS
+|
+| ( 1 ) Acessar Cliente
+|
+| ( 2 ) Criar Cliente
+| ( 3 ) Exibir Clientes
+| ( 4 ) Excluir Cliente
+| ( 0 ) Voltar
+| Escolha:
+```
+
+#### Opções:
+
+* Acessar Cliente: digite um CPF válido e vá para o menu do cliente
+* Criar Cliente: digite nome e CPF; o sistema valida e salva no arquivo
+* Exibir Clientes: imprime todos os clientes registrados
+* Excluir Cliente: remove um cliente por CPF
+* Voltar: retorna ao menu principal
+
+### 3. Menu do Cliente (clientMenu)
+
+Após acessar ou criar um cliente, você acessa o menu de operações desse cliente:
+
+```
+| CENTRAL DO CLIENTE: <NOME>
+|
+| ( 1 ) Acessar Conta
+|
+| ( 2 ) Criar Conta
+| ( 3 ) Exibir Contas
+| ( 4 ) Excluir Conta
+| ( 0 ) Voltar
+| Escolha:
+```
+
+#### Opções:
+
+* Acessar Conta: digite o ID de uma conta existente (vinculada ao CPF do cliente)
+* Criar Conta: gera conta com ID aleatório, saldo 0.0 e vincula ao CPF
+* Exibir Contas: mostra todas as contas desse CPF
+* Excluir Conta: deleta conta via ID
+* Voltar: retorna ao menu de clientes
+
+### 4. Menu da Conta (accountMenu)
+
+Depois de acessar uma conta, você pode fazer transações:
+
+```
+| CENTRAL DA CONTA: <ID>
+|
+| ( 1 ) Sacar
+| ( 2 ) Depositar
+| ( 3 ) Transferir
+| ( 4 ) Transferir para duas contas
+| ( 0 ) Voltar
+| Escolha:
+```
+
+### Opções:
+
+* Sacar: informa o valor, sistema verifica saldo e atualiza arquivo
+* Depositar: adiciona valor ao saldo
+* Transferir: transfere valor para outra conta (ID diferente)
+* Transferir para duas contas: valor é dividido e enviado para dois IDs distintos
+* Voltar: retorna ao menu do cliente
+
+📌 Importante
+
+* Cada opção exige entrada válida (CPF, nome, ID, valor etc.)
+* O programa imprime cabeçalhos decorativos (printHead) para clareza
+* Mensagens de erro e sucesso aparecem imediatamente após cada ação
+* Você pode sempre retornar ao menu anterior com a opção (0)
+
+🔄 Ciclo de Navegação
+
+Você pode navegar de forma fluida entre os menus, criando clientes → acessando → gerenciando contas → voltando ao menu inicial. O sistema é projetado para ciclos curtos.
 
 ---
 
