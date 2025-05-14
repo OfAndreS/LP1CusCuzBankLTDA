@@ -13,14 +13,33 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c
 # Cria o executável com os arquivos encontrados
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# Define macro com o caminho para recursos (ajuda no desenvolvimento)
+# Define macro com o caminho para recursos
 target_compile_definitions(${PROJECT_NAME} PUBLIC 
     RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/"
 )
 
-# Exemplo: adicionar bibliotecas de terceiros no futuro
-# add_subdirectory(thirdParty/minhaLib)
-# target_link_libraries(${PROJECT_NAME} PRIVATE minhaLib)
+# Lista de arquivos de recurso a serem verificados/criados
+set(RESOURCE_FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/resources/accountDataBase.txt"
+    "${CMAKE_CURRENT_SOURCE_DIR}/resources/clientDataBase.txt"
+)
+
+# Adiciona regra customizada para criar arquivos de recurso se não existirem
+foreach(file ${RESOURCE_FILES})
+    get_filename_component(name ${file} NAME)
+    add_custom_command(
+        OUTPUT ${file}
+        COMMAND ${CMAKE_COMMAND} -E echo "" > ${file}
+        COMMENT "Criando arquivo de recurso ausente: ${name}"
+        VERBATIM
+    )
+endforeach()
+
+# Cria um alvo customizado que depende desses arquivos
+add_custom_target(resources ALL DEPENDS ${RESOURCE_FILES})
+
+# Faz o executável depender dos recursos, para que sejam criados antes
+add_dependencies(${PROJECT_NAME} resources)
 
 # Opcional: para runtime estático no MSVC (Windows)
 if(MSVC)
