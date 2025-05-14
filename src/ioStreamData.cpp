@@ -190,7 +190,6 @@ std::vector<std::string> ccBank::readCpfData(const std::string PATH, const std::
     }
 
     if (!encontrou) {
-        std::cout << "| Nenhuma conta foi criada para esse CPF.\n";
         return cpfsEncontrados = {};
     }
 
@@ -246,37 +245,65 @@ bool ccBank::writeAccountData(const std::string& id, ccBank::Client& client, con
 // Métodos para ATUALIZAR o arquivo
 
 
-void ccBank::updateAccountBalance(int number, const std::string PATH, std::vector<std::string> lines, double newBalance)
+void ccBank::updateAccountBalance(int number, const std::string PATH, std::vector<std::string> lines, double valueToAdd, const int TYPE) 
 {
     int targetLine = number;
 
     if (targetLine == -1) return;
 
-    if (lines.empty())
-    {
+    if (lines.empty()) {
         printHead();
         std::cout << "| Nenhuma conta foi criada" << std::endl;
         return;
     }
         
-    if (targetLine < 1 || targetLine > lines.size()) // Verifica se a linha existe
-    {
+    if (targetLine < 1 || targetLine > lines.size()) {
         std::cerr << "| Linha " << targetLine << " inexistente!\n";
         return;
     }
 
-    std::string& lineToUpdate = lines[targetLine - 1]; // Aloca a linha para modificação
+    std::string& lineToUpdate = lines[targetLine - 1];
     
-    size_t balancePos = lineToUpdate.find_last_of('/'); // Enconta a posição da variavel Balance
-    if (balancePos == std::string::npos)
-    {
-        std::cerr << "| Formato de linha inválido!\n";
+    size_t balancePos = lineToUpdate.find_last_of('/');
+    if (balancePos == std::string::npos) {
+        std::cerr << "| Formato de linha inválido (não encontrado '/')!\n";
         return;
     }
-    
+
+    std::string balanceStr = lineToUpdate.substr(balancePos + 1);
+    double currentBalance;
+    try {
+        currentBalance = std::stod(balanceStr);
+    } catch (...) {
+        std::cerr << "| Erro ao ler saldo atual!\n";
+        return;
+    }
+
+    double newBalance = currentBalance; // Declare newBalance outside the switch
+
+    switch (TYPE)
+    {
+    case 1:
+        newBalance = currentBalance + valueToAdd;
+        break;
+    case 2:
+        newBalance = currentBalance - valueToAdd;
+        break;
+    default:
+        break;
+    }
+
     lineToUpdate = lineToUpdate.substr(0, balancePos + 1) + " " + std::to_string(newBalance);
 
-    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + PATH); // Reescreve o arquivo
+    size_t dotPos = lineToUpdate.find('.');
+    if (dotPos != std::string::npos) {
+        lineToUpdate.erase(lineToUpdate.find_last_not_of('0') + 1, std::string::npos);
+        if (lineToUpdate.back() == '.') {
+            lineToUpdate.push_back('0'); 
+        }
+    }
+
+    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + PATH);
     if (!arquivoSaida.is_open()) {
         std::cerr << "| Erro ao abrir arquivo para escrita!\n";
         return;
@@ -287,12 +314,11 @@ void ccBank::updateAccountBalance(int number, const std::string PATH, std::vecto
     }
 
     printHead();
-    std::cout << "| Saldo da conta atualizado com sucesso!\n";
+    std::cout << "| Saldo atualizado De: " << currentBalance << " Para: " << newBalance << "\n";
 
     arquivoSaida.close();
-
-    return;
 }
+
 
 // Métodos para DELETAR no arquivos 
 
@@ -341,7 +367,7 @@ void ccBank::deleteData(int number, const std::string PATH, std::vector<std::str
     }
 
     printHead();
-    std::cout << "| Cliente deletado com sucesso!\n";
+    std::cout << "| Deletado com sucesso!\n";
 
     arquivoSaida.close();
 

@@ -35,7 +35,7 @@ namespace ccBank
     // Métodos para ATUALIZAR o arquivos 
 
 
-    void updateAccountBalance(int number, const std::string PATH, std::vector<std::string> lines, double newBalance);
+    void updateAccountBalance(int number, const std::string PATH, std::vector<std::string> lines, double newBalance, const int TYPE);
 
 
     // Métodos para LEITURA no arquivo 

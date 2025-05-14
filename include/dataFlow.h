@@ -26,6 +26,14 @@ namespace ccBank
 
     void ClientFlowAccessAccount(ccBank::Client& myClient);
 
+    void AccountFlowDepositar(ccBank::Account& myAccount);
+
+    void AccountFlowSacar(ccBank::Account& myAccount);
+
+    void AccountFlowTransferir(ccBank::Account& myAccount);
+
+    void AccountFlowTransferirParaDuasContas(ccBank::Account& myAccount);
+
     void SecondFlow();
 
 }
