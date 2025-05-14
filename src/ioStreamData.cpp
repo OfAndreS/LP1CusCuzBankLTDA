@@ -203,8 +203,8 @@ std::vector<std::string> ccBank::readCpfData(const std::string PATH, const std::
 
 bool ccBank::writeClientData(const std::string& cpf, const std::string& name) 
 {
-    std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2); // Primeiro verifica se o CPF já existe
-    
+    // Verifica se o CPF já existe
+    std::vector<std::string> existingCpfs = storeDataInVector("clientDataBase.txt", 2);
     if (ccBank::searchCpf(existingCpfs, cpf)) 
     {
         printHead();
@@ -212,13 +212,29 @@ bool ccBank::writeClientData(const std::string& cpf, const std::string& name)
         return false;
     }
 
-    std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + "clientDataBase.txt", std::ios::app); // Se o CPF não existe, procede com o cadastro
+    // Define o caminho completo do arquivo
+    std::string filePath = std::string(RESOURCES_PATH) + "clientDataBase.txt";
+
+    // Verifica se o arquivo está vazio
+    std::ifstream checkFile(filePath);
+    bool isEmpty = checkFile.peek() == std::ifstream::traits_type::eof();
+    checkFile.close();
+
+    // Abre o arquivo no modo apropriado (append ou trunc)
+    std::ofstream arquivoSaida;
+    if (isEmpty) {
+        arquivoSaida.open(filePath, std::ios::trunc); // Sobrescreve se vazio
+    } else {
+        arquivoSaida.open(filePath, std::ios::app); // Append se não vazio
+    }
+
     if (!arquivoSaida.is_open()) {
         std::cerr << "| Erro ao abrir arquivo para escrita!\n";
         return false;
     }
 
-    arquivoSaida << cpf << " | " << name << "\n"; // Formata a saída consistentemente
+    // Escreve os dados formatados
+    arquivoSaida << cpf << " | " << name << "\n";
     arquivoSaida.close();
 
     printHead();
@@ -228,11 +244,23 @@ bool ccBank::writeClientData(const std::string& cpf, const std::string& name)
 
 bool ccBank::writeAccountData(const std::string& id, ccBank::Client& client, const std::string& balance) 
 {
+    std::string filePath = RESOURCES_PATH "accountDataBase.txt";
+    
+    // Check if the file is empty
+    std::ifstream checkFile(filePath);
+    bool isEmpty = checkFile.peek() == std::ifstream::traits_type::eof();
+    checkFile.close();
 
-    std::ofstream arquivoSaida(RESOURCES_PATH "accountDataBase.txt", std::ios::app);
+    // Open in append mode if not empty, truncate (overwrite) if empty
+    std::ofstream arquivoSaida;
+    if (isEmpty) {
+        arquivoSaida.open(filePath, std::ios::trunc); // Overwrites if empty
+    } else {
+        arquivoSaida.open(filePath, std::ios::app); // Appends if not empty
+    }
 
     if (arquivoSaida.is_open()) {
-        arquivoSaida << client.getCpf() << " | " << id << " / " << balance << std::endl; // Escreve no final do arquivo
+        arquivoSaida << client.getCpf() << " | " << id << " / " << balance << std::endl;
         arquivoSaida.close();
         return true;
     } else {
