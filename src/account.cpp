@@ -113,3 +113,8 @@ std::string ccBank::Account::getInfo()
            << "| Saldo: " << std::fixed << std::setprecision(2) << accountBalance;
     return ss.str();
 }
+
+std::string ccBank::Account::getCpf()
+{
+    return accountHolder.getCpf();
+}

@@ -33,6 +33,7 @@ namespace ccBank
 
             std::string getID();
             std::string getInfo();
+            std::string getCpf();
             std::string getSaldo();
     };
 }

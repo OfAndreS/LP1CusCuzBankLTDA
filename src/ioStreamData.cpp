@@ -245,21 +245,21 @@ bool ccBank::writeAccountData(const std::string& id, ccBank::Client& client, con
 // Métodos para ATUALIZAR o arquivo
 
 
-void ccBank::updateAccountBalance(int number, const std::string PATH, std::vector<std::string> lines, double valueToAdd, const int TYPE) 
+int ccBank::updateAccountBalance(int number, const std::string PATH, std::vector<std::string> lines, double valueToAdd, const int TYPE) 
 {
     int targetLine = number;
 
-    if (targetLine == -1) return;
+    if (targetLine == -1) return -2;
 
     if (lines.empty()) {
         printHead();
         std::cout << "| Nenhuma conta foi criada" << std::endl;
-        return;
+        return -2;
     }
         
     if (targetLine < 1 || targetLine > lines.size()) {
         std::cerr << "| Linha " << targetLine << " inexistente!\n";
-        return;
+        return -2;
     }
 
     std::string& lineToUpdate = lines[targetLine - 1];
@@ -267,7 +267,7 @@ void ccBank::updateAccountBalance(int number, const std::string PATH, std::vecto
     size_t balancePos = lineToUpdate.find_last_of('/');
     if (balancePos == std::string::npos) {
         std::cerr << "| Formato de linha inválido (não encontrado '/')!\n";
-        return;
+        return -2;
     }
 
     std::string balanceStr = lineToUpdate.substr(balancePos + 1);
@@ -276,7 +276,7 @@ void ccBank::updateAccountBalance(int number, const std::string PATH, std::vecto
         currentBalance = std::stod(balanceStr);
     } catch (...) {
         std::cerr << "| Erro ao ler saldo atual!\n";
-        return;
+        return -2;
     }
 
     double newBalance = currentBalance; // Declare newBalance outside the switch
@@ -288,6 +288,7 @@ void ccBank::updateAccountBalance(int number, const std::string PATH, std::vecto
         break;
     case 2:
         newBalance = currentBalance - valueToAdd;
+        if (newBalance < 0) return -1;
         break;
     default:
         break;
@@ -306,7 +307,7 @@ void ccBank::updateAccountBalance(int number, const std::string PATH, std::vecto
     std::ofstream arquivoSaida(std::string(RESOURCES_PATH) + PATH);
     if (!arquivoSaida.is_open()) {
         std::cerr << "| Erro ao abrir arquivo para escrita!\n";
-        return;
+        return -2;
     }
 
     for (const auto& l : lines) {
@@ -317,6 +318,8 @@ void ccBank::updateAccountBalance(int number, const std::string PATH, std::vecto
     std::cout << "| Saldo atualizado De: " << currentBalance << " Para: " << newBalance << "\n";
 
     arquivoSaida.close();
+
+    return newBalance;
 }
 
 

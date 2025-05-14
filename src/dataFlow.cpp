@@ -152,7 +152,14 @@
         std::cout << "| Digite a quantidade para Sacar: ";
         std::cin >> money;
 
-        ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, std::stoi(myAccount.getID())), PATH, ccBank::returnAllLinesInVector(PATH), money, 2);
+        int myMoney = ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, std::stoi(myAccount.getID())), PATH, ccBank::returnAllLinesInVector(PATH), money, 2);
+        
+        if (myMoney == -1)
+        {
+            std::cout << "| Dinheiro insuficiente!!!" << std::endl;
+            return;
+        }
+
     }
 
     void ccBank::AccountFlowTransferir(ccBank::Account& myAccount)
@@ -162,14 +169,31 @@
         int firstAccountID;
         double money;
 
+        std::vector<std::string> data = ccBank::readCpfData(PATH, myAccount.getCpf());
+
+        if(data.empty())
+        {
+            std::cout << "| Nenhuma conta foi criada para esse CPF" << std::endl; 
+            return;
+        }
+
         ccBank::printHead();
         std::cout << "| Digite a quantidade para Transferir: ";
         std::cin >> money;
         std::cout << "| Digite O ID da primeira conta: ";
         std::cin >> firstAccountID;
 
-        ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, std::stoi(myAccount.getID())), PATH, ccBank::returnAllLinesInVector(PATH), money, 2);
-        ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, firstAccountID), PATH, ccBank::returnAllLinesInVector(PATH), money, 1);
+        int myMoney = ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, std::stoi(myAccount.getID())), PATH, ccBank::returnAllLinesInVector(PATH), money, 2);
+        
+        if (myMoney == -1)
+        {
+            std::cout << "| Dinheiro insuficiente!!!" << std::endl;
+            return;
+        }
+        else
+        {
+            ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, firstAccountID), PATH, ccBank::returnAllLinesInVector(PATH), money, 1);
+        }
     }
 
     void ccBank::AccountFlowTransferirParaDuasContas(ccBank::Account& myAccount)
@@ -181,6 +205,14 @@
         double money;
         double halfMoney;
 
+        std::vector<std::string> data = ccBank::readCpfData(PATH, myAccount.getCpf());
+
+        if(data.empty())
+        {
+            std::cout << "| Nenhuma conta foi criada para esse CPF" << std::endl; 
+            return;
+        }
+
         ccBank::printHead();
         std::cout << "| Digite a quantidade para Transferir: ";
         std::cin >> money;
@@ -191,9 +223,18 @@
 
         halfMoney = money / 2;
 
-        ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, std::stoi(myAccount.getID())), PATH, ccBank::returnAllLinesInVector(PATH), money, 2);
+        int myMoney = ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, std::stoi(myAccount.getID())), PATH, ccBank::returnAllLinesInVector(PATH), money, 2);
+        
+        if (myMoney == -1)
+        {
+            std::cout << "| Dinheiro insuficiente!!!" << std::endl;
+            return;
+        }
+        else
+        {
         ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, firstAccountID), PATH, ccBank::returnAllLinesInVector(PATH), halfMoney, 1);
         ccBank::updateAccountBalance(ccBank::searchIdReturnInt(PATH, seccondAccountID), PATH, ccBank::returnAllLinesInVector(PATH), halfMoney, 1);
+        }
     }
 
     void ccBank::SecondFlow()
