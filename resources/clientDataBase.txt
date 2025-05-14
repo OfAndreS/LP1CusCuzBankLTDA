@@ -1,5 +1,2 @@
 000.000.000.01 | Satoshi Nakamoto
-000.000.000.02 | Petter Parker
-000.000.000.03 | Lucia Lucia
-000.000.000.04 | Andre Soares
-000.000.000.05 | Ana Julia
+
