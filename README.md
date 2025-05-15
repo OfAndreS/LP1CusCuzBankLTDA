@@ -112,35 +112,26 @@ Predefinido:
 
 Ao iniciar o programa, o usuário vê o menu principal:
 
+![image](https://github.com/user-attachments/assets/1a2050fb-2891-4084-8f1c-1b42ae947c1c)
+
 ```
 | MENU PRINCIPAL
-|
-| ( 1 ) Fluxo Normal
-| ( 2 ) Fluxo Predefinido
-| ( 0 ) Encerrar
-| Escolha:
 ```
 
 Opções:
 
 * (1) Fluxo Normal: leva ao menu de gerenciamento de clientes (primeira camada funcional do sistema)
-* (2) Fluxo Predefinido: executa um exemplo automático (sem entrada manual)
+* (2) Fluxo Predefinido: executa um exemplo automático (Predefinido pela atividade de LP1)
 * (0) Encerra o programa
 
 ### 2. Fluxo Normal → Menu de Clientes (firstFlowMenu)
 
 Após escolher “Fluxo Normal”, o usuário é levado ao menu de clientes:
 
+![image](https://github.com/user-attachments/assets/d4c4c368-4f88-458c-bced-e4e32a4fc4b0)
+
 ```
 | CENTRAL DE ALTERNATIVAS
-|
-| ( 1 ) Acessar Cliente
-|
-| ( 2 ) Criar Cliente
-| ( 3 ) Exibir Clientes
-| ( 4 ) Excluir Cliente
-| ( 0 ) Voltar
-| Escolha:
 ```
 
 #### Opções:
@@ -155,16 +146,10 @@ Após escolher “Fluxo Normal”, o usuário é levado ao menu de clientes:
 
 Após acessar ou criar um cliente, você acessa o menu de operações desse cliente:
 
+![image](https://github.com/user-attachments/assets/54f6bb90-2dac-4d59-b822-13d2baa90701)
+
 ```
 | CENTRAL DO CLIENTE: <NOME>
-|
-| ( 1 ) Acessar Conta
-|
-| ( 2 ) Criar Conta
-| ( 3 ) Exibir Contas
-| ( 4 ) Excluir Conta
-| ( 0 ) Voltar
-| Escolha:
 ```
 
 #### Opções:
@@ -179,15 +164,10 @@ Após acessar ou criar um cliente, você acessa o menu de operações desse clie
 
 Depois de acessar uma conta, você pode fazer transações:
 
+![image](https://github.com/user-attachments/assets/76627aa5-2893-4ec8-b4a9-cda550c16e0d)
+
 ```
 | CENTRAL DA CONTA: <ID>
-|
-| ( 1 ) Sacar
-| ( 2 ) Depositar
-| ( 3 ) Transferir
-| ( 4 ) Transferir para duas contas
-| ( 0 ) Voltar
-| Escolha:
 ```
 
 ### Opções:
