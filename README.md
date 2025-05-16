@@ -2,6 +2,8 @@
 
 CusCuzBankLTDA é um sistema bancário simples desenvolvido em C++ com persistência em arquivos `.txt`, menus interativos e foco educacional. Ele simula operações bancárias como criação de clientes e contas, depósitos, saques e transferências — tudo via terminal.
 
+Vídeo do projeto: https://www.youtube.com/watch?v=8DO-d1TpVfw
+
 ---
 
 ## 🧠 Visão Geral
